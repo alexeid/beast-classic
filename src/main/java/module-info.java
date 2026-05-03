@@ -7,6 +7,8 @@ open module beast.classic {
     requires java.scripting;
     requires beagle;
     requires mtj;
+    requires arpack.combined.all;
+    requires core;
     requires org.apache.commons.statistics.distribution;
     requires static beast.fx;
     requires static javafx.controls;

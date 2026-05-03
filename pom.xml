@@ -93,11 +93,31 @@
             <artifactId>mtj</artifactId>
             <version>1.0.4</version>
             <exclusions>
+                <!-- Exclude the netlib POM aggregator: it pulls in core, native_ref-java,
+                     and native_system-java which all export com.github.fommil.netlib,
+                     causing a JPMS split-package error on the module path.
+                     We add arpack_combined_all explicitly below (no package overlap). -->
                 <exclusion>
                     <groupId>com.github.fommil.netlib</groupId>
                     <artifactId>all</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- arpack provides org.netlib.util.intW etc. needed by MTJ's tridiag solver -->
+        <dependency>
+            <groupId>net.sourceforge.f2j</groupId>
+            <artifactId>arpack_combined_all</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <!-- netlib core provides com.github.fommil.netlib.LAPACK etc. needed by MTJ.
+             The native_ref-java and native_system-java jars are excluded (via the 'all'
+             POM exclusion above) because they share the com.github.fommil.netlib package
+             with core, which is a JPMS split-package violation. The F2j fallback in
+             core is sufficient. -->
+        <dependency>
+            <groupId>com.github.fommil.netlib</groupId>
+            <artifactId>core</artifactId>
+            <version>1.1.2</version>
         </dependency>
 
         <!-- Testing -->
